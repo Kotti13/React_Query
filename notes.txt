@@ -1,0 +1,5 @@
+Pooling 
+data pooling live update refetching interval
+
+
+refetchIntervalInBackground  for fetch call if incase we are in another tab also 
