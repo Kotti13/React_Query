@@ -17,6 +17,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactQueryFetchByClick from "./components/ReactQueryFetchByClick";
 import ReactQueryById from "./components/ReactQueryById";
 
+
+
 const items = [
   {
     label: <NavLink to="/">Home</NavLink>,
