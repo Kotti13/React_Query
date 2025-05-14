@@ -11,12 +11,14 @@ const contentStyle = {
   color: "#fff",
   lineHeight: "160px",
   textAlign: "center",
+
   background: "#364d79",
 };
 
 const ReactQueryById = () => {
   const { id } = useParams();
   console.log("id", id);
+  
 
 
   const { data, isLoading, error, isError } = useQuery({
@@ -44,6 +46,9 @@ const ReactQueryById = () => {
           <h3 style={contentStyle}>3</h3>
         </div>
         <div>
+
+
+
           <h3 style={contentStyle}>4</h3>
         </div>
       </Carousel>
