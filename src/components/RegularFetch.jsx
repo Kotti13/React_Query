@@ -24,38 +24,59 @@ const columns = [
 ];
 
 function RegularFetch() {
-  const [data, setdata] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [data, setData] = useState([]);
+  const [fetchLoading, setFetchLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(null);
+  const [delayLoader, setDelayLoader] = useState(true);
 
-  const fetchposts = async () => {
-    try {
-      const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/users"
-      );
-      setdata(response.data);
-      console.log(response.data);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // Show illusion loader for first 2 seconds
   useEffect(() => {
-    fetchposts();
+    const timer = setTimeout(() => {
+      setDelayLoader(false);
+    }, 2000);
+    return () => clearTimeout(timer);
   }, []);
+
+  // Fetch API after fake loader
+  useEffect(() => {
+    if (!delayLoader) {
+      const fetchUsers = async () => {
+        try {
+          const response = await axios.get(
+            "https://jsonplaceholder.typicode.com/users"
+          );
+          setData(response.data);
+        } catch (err) {
+          setFetchError(err.message);
+        } finally {
+          setFetchLoading(false);
+        }
+      };
+      fetchUsers();
+    }
+  }, [delayLoader]);
+
+  // Show illusion loader for first 2 seconds
+  if (delayLoader) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="illusion"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4">
-      <h1 className="text-center  text-3xl font-bold text-blue-500 hover:text-blue-700 ">
+      <h1 className="text-center text-3xl font-bold text-blue-500 hover:text-blue-700">
         Regular Fetch
       </h1>
 
-      {loading && <p className="loader"></p>}
-      {error && <p className="text-center text-red-500">Error: {error}</p>}
+      {fetchLoading && <p className="loader"></p>}
+      {fetchError && (
+        <p className="text-center text-red-500">Error: {fetchError}</p>
+      )}
 
-      {!loading && !error && (
+      {!fetchLoading && !fetchError && (
         <Table
           columns={columns}
           dataSource={data}
@@ -63,11 +84,11 @@ function RegularFetch() {
           pagination={{
             pageSize: 7,
             position: ["bottomCenter"],
-            className: "custom-pagination t",
+            className: "custom-pagination",
           }}
           bordered
           size="middle"
-          className=" *:hover:text-blue-700 p-5  "
+          className="*:hover:text-blue-700 p-5"
         />
       )}
 
