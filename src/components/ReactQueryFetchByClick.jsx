@@ -7,6 +7,7 @@ import { Table } from "antd";
 
 const columns = [
     {
+
         title: "Title",
         dataIndex: "title",
         key: "name",
@@ -50,7 +51,7 @@ function ReactQueryFetchByClick() {
             </h1>
             <Table
                 columns={columns}
-                dataSource={data?.data}
+                dataSource={data}
                 rowKey="id"
                 pagination={{
                     pageSize: 5,

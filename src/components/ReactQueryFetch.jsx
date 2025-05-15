@@ -46,7 +46,7 @@ function ReactQueryFetch() {
   const { data, isLoading, error, isError,isFetching } = useQuery({
     queryKey: ["products"],
       queryFn: Products,
-refetchInterval: 1000,
+// refetchInterval: 1000,
 refetchIntervalInBackground:true,
     enabled: true,
   });
@@ -74,7 +74,7 @@ refetchIntervalInBackground:true,
     
       <Table
         columns={columns}
-        dataSource={data?.data}
+        dataSource={data}
         
         rowKey="id"
         pagination={{

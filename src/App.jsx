@@ -19,7 +19,7 @@ import {
   SquareMousePointer,
   Rows4,
   ListStart,
-  Infinity,Mouse
+  Infinity,Mouse,Braces
 } from "lucide-react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactQueryFetchByClick from "./components/ReactQueryFetchByClick";
@@ -31,6 +31,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "./components/ErrorFallback";
 import { LockKeyholeOpen } from "lucide-react";
 import InfiniteQueriesScroll from "./components/InfiniteQueriesScroll";
+import Usequery from "./components/Usequery";
 
 const items = [
   {
@@ -72,6 +73,11 @@ const items = [
     key: "/Infinitescroll",
     icon: <Mouse />,
   },
+  {
+    label: <NavLink to="/UseQuery">UseQuery</NavLink>,
+    key: "/UseQuery",
+    icon: <Braces />,
+  },
 ];
 
 function AppLayout() {
@@ -97,6 +103,7 @@ function AppLayout() {
         <Route path="/react-pagination" element={<Pagination />} />
         <Route path="/Infinite-fetch" element={<InfiniteQueries />} />
         <Route path="/Infinitescroll" element={<InfiniteQueriesScroll />} />
+        <Route path="/UseQuery" element={<Usequery/>} />
       </Routes>
     </>
   );
