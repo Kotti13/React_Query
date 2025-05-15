@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import {
   Card,
   Typography,
@@ -13,8 +13,28 @@ import { NavLink } from "react-router-dom";
 import { DatabaseOutlined, ThunderboltOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
+import '../assets/css/Loaders.css'
+
+
 
 function Home() {
+
+
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); 
+
+    return () => clearTimeout(timer); 
+  }, []);
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="illusion"></div>
+      </div>
+    );
+  }
   return (
     <div className="flex justify-center items-center mt-[90px] px-4">
       <Card
