@@ -12,12 +12,25 @@ import ReactQueryFetch from "./components/ReactQueryFetch";
 import { Menu } from "antd";
 import "./App.css";
 import "./index.css";
-import { House, Database, DatabaseZap,SquareMousePointer ,Rows4} from "lucide-react";
+import {
+  House,
+  Database,
+  DatabaseZap,
+  SquareMousePointer,
+  Rows4,
+  ListStart,
+  Infinity,Mouse
+} from "lucide-react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactQueryFetchByClick from "./components/ReactQueryFetchByClick";
 import ReactQueryById from "./components/ReactQueryById";
+import Pagination from "./components/Pagination";
+import InfiniteQueries from "./components/InfiniteQueries";
 
-
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallback from "./components/ErrorFallback";
+import { LockKeyholeOpen } from "lucide-react";
+import InfiniteQueriesScroll from "./components/InfiniteQueriesScroll";
 
 const items = [
   {
@@ -44,7 +57,21 @@ const items = [
     key: "/react-query-fetch-by-click",
     icon: <SquareMousePointer />,
   },
- 
+  {
+    label: <NavLink to="/react-pagination">Pagination</NavLink>,
+    key: "/react-pagination",
+    icon: <ListStart />,
+  },
+  {
+    label: <NavLink to="/Infinite-fetch">InfiniteQueries</NavLink>,
+    key: "/Infinite-fetch",
+    icon: <Infinity />,
+  },
+  {
+    label: <NavLink to="/Infinitescroll">Infinitescroll</NavLink>,
+    key: "/Infinitescroll",
+    icon: <Mouse />,
+  },
 ];
 
 function AppLayout() {
@@ -62,9 +89,14 @@ function AppLayout() {
         <Route path="/" element={<Home />} />
         <Route path="/regular" element={<RegularFetch />} />
         <Route path="/react-query-fetch" element={<ReactQueryFetch />} />
-        <Route path="/react-query-fetch-by-click" element={<ReactQueryFetchByClick />} />
+        <Route
+          path="/react-query-fetch-by-click"
+          element={<ReactQueryFetchByClick />}
+        />
         <Route path="/react-query-fetch/:id" element={<ReactQueryById />} />
-
+        <Route path="/react-pagination" element={<Pagination />} />
+        <Route path="/Infinite-fetch" element={<InfiniteQueries />} />
+        <Route path="/Infinitescroll" element={<InfiniteQueriesScroll />} />
       </Routes>
     </>
   );
@@ -73,10 +105,13 @@ function AppLayout() {
 export default function App() {
   return (
     <React.StrictMode>
-    <BrowserRouter>
-      <AppLayout />
-      <ReactQueryDevtools />
-    </BrowserRouter>
+      <BrowserRouter>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <AppLayout />
+        </ErrorBoundary>
+
+        <ReactQueryDevtools />
+      </BrowserRouter>
     </React.StrictMode>
   );
 }

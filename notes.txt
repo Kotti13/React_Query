@@ -3,3 +3,8 @@ data pooling live update refetching interval
 
 
 refetchIntervalInBackground  for fetch call if incase we are in another tab also 
+
+placeholderdata:keeppreviousdata for keep previous fetchdata
+
+
+npm i react-intersection-observer  -to scroll observer to load fetch more

@@ -88,7 +88,7 @@ const ReactQueryById = () => {
                 />
               </div>
             </div>
-          </div>
+          </div> 
         )}
       </div>
     </>
