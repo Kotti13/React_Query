@@ -19,7 +19,7 @@ import {
   SquareMousePointer,
   Rows4,
   ListStart,
-  Infinity,Mouse,Braces
+  Infinity,Mouse,Braces,HardDriveUpload
 } from "lucide-react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactQueryFetchByClick from "./components/ReactQueryFetchByClick";
@@ -32,6 +32,8 @@ import ErrorFallback from "./components/ErrorFallback";
 import { LockKeyholeOpen } from "lucide-react";
 import InfiniteQueriesScroll from "./components/InfiniteQueriesScroll";
 import Usequery from "./components/Usequery";
+import { useMutation } from "@tanstack/react-query";
+import Crud from './components/Crud'
 
 const items = [
   {
@@ -78,6 +80,11 @@ const items = [
     key: "/UseQuery",
     icon: <Braces />,
   },
+  {
+    label: <NavLink to="/UseMutation">UseMutation</NavLink>,
+    key: "/UseMutation",
+    icon: <HardDriveUpload />,
+  },
 ];
 
 function AppLayout() {
@@ -103,7 +110,8 @@ function AppLayout() {
         <Route path="/react-pagination" element={<Pagination />} />
         <Route path="/Infinite-fetch" element={<InfiniteQueries />} />
         <Route path="/Infinitescroll" element={<InfiniteQueriesScroll />} />
-        <Route path="/UseQuery" element={<Usequery/>} />
+        <Route path="/UseQuery" element={<Usequery />} />
+        <Route path="/UseMutation" element={ <Crud/>} />
       </Routes>
     </>
   );
