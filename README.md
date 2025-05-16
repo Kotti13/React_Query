@@ -1,12 +1,144 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 📘 TanStack Query – Complete Notes
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✅ 1. `useQuery` Basic Syntax
 
-## Expanding the ESLint configuration
+```js
+const { data, isLoading, error } = useQuery({
+  queryKey: ['key'],
+  queryFn: fetchFunction
+});
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Keys:
+
+* **`queryKey`**: Unique cache key.
+* **`queryFn`**: Function to fetch the data (axios, fetch, etc.).
+
+---
+
+## 🔁 2. Polling / Live Data Updates
+
+### 🔹 `refetchInterval`
+
+Auto-refetch data every X milliseconds.
+
+```js
+useQuery({
+  queryKey: ['posts'],
+  queryFn: fetchPosts,
+  refetchInterval: 5000, // Refetch every 5 seconds
+});
+```
+
+### 🔹 `refetchIntervalInBackground`
+
+Even if the tab is inactive, this keeps polling.
+
+```js
+useQuery({
+  queryKey: ['posts'],
+  queryFn: fetchPosts,
+  refetchInterval: 5000,
+  refetchIntervalInBackground: true,
+});
+```
+
+🔸 Without `refetchIntervalInBackground: true`, polling stops when the tab is in the background.
+
+---
+
+## 🎯 3. Placeholder & Cache Handling
+
+### 🔹 `placeholderData`
+
+Temporary data shown while loading. Good for showing a shape or previous format.
+
+```js
+useQuery({
+  queryKey: ['posts'],
+  queryFn: fetchPosts,
+  placeholderData: [],
+});
+```
+
+### 🔹 `keepPreviousData: true`
+
+Keeps the old data on screen while new data is fetched (useful in pagination).
+
+```js
+useQuery({
+  queryKey: ['page', pageNumber],
+  queryFn: fetchPageData,
+  keepPreviousData: true,
+});
+```
+
+---
+
+## 🔁 4. Refetching Options
+
+### Manual Refetch:
+
+```js
+const query = useQuery({ queryKey: ['data'], queryFn: fetchData });
+<button onClick={() => query.refetch()}>Refetch</button>
+```
+
+---
+
+## 📦 5. Pagination / Infinite Scroll
+
+### Intersection Observer with `react-intersection-observer`
+
+Install:
+
+```bash
+npm i react-intersection-observer
+```
+
+### Example for infinite scroll:
+
+```js
+import { useInView } from 'react-intersection-observer';
+
+const { ref, inView } = useInView();
+
+useEffect(() => {
+  if (inView && hasNextPage) {
+    fetchNextPage(); // from useInfiniteQuery
+  }
+}, [inView]);
+```
+
+Use `ref` on the last item to detect scroll and load more.
+
+---
+
+## 💡 Useful Options Summary
+
+| Option                        | Description                                |
+| ----------------------------- | ------------------------------------------ |
+| `refetchInterval`             | Time interval to auto-refetch              |
+| `refetchIntervalInBackground` | Keep fetching even when tab is inactive    |
+| `refetchOnWindowFocus`        | Auto refetch when window becomes active    |
+| `placeholderData`             | Temporary data to show during loading      |
+| `keepPreviousData`            | Keeps old data during refetch (pagination) |
+| `staleTime`                   | How long data is considered fresh          |
+| `cacheTime`                   | How long data stays in memory after unused |
+
+---
+
+## 🔄 useMutation (for POST, PUT, DELETE)
+
+```js
+const mutation = useMutation({
+  mutationFn: postData,
+  onSuccess: () => {
+    queryClient.invalidateQueries(['posts']); // Refetch after mutation
+  },
+});
+```
+
